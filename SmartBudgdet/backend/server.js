@@ -23,11 +23,12 @@ app.use(express.json());
 
 // Database connection
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'SmartBudget',
-  password: 'suman123',
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  ssl: { rejectUnauthorized: false }
 });
 
 // Test database connection
@@ -456,7 +457,7 @@ app.delete('/api/transactions/:id', authenticateToken, async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
- 
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
